@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="./bower_components/bootstrap-css-only/css/bootstrap.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
+    <script>
+        $('.selectpicker').selectpicker({
+        //style: 'btn-info',
+        size: 5
+        });
+    </script>
+
+    <meta charset="UTF-8">
+    <title>Pricey</title>
+</head>
+<body ng-app="app" ng-controller="AppController">
+    <div class="container-fluid">
+        <h1>Customer</h1>
+        <div class="pricey-customers col-md-3">
+            <select class="selectpicker form-control" ng-model="selectedCustId" ng-change="getCustDetail(selectedCustId)">
+                <option selected disabled style="display: none" value=""></option>
+                <option ng-repeat="cust in customers" value="{{cust.id}}">
+                    {{cust.name}}
+                </option>
+            </select>
+            <p><br>{{custRebates.length}} rebate<span ng-hide="{{custRebates.length < 2}}">s</span> found for {{selectedCust.name}}</p>
+        </div>
+        <div class="col-md-9">
+            <table class="table table-bordered">
+                <tr>
+                    <th>Rebate id</th>
+                    <th>% offer</th>
+                    <th>Product included</th>
+                </tr>
+                <tr ng-repeat="cr in custRebates">
+                    <td>{{cr.id}}</td>
+                    <td>{{cr.rate * 100}}</td>
+                    <td><span ng-hide="cr.productList.length > 0">All</span>
+                        <span ng-repeat="product in cr.productList">
+                        - {{product.name}}<br>
+                    </span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="container-fluid ">
+        <h1>Product</h1>
+        <div class="pricey-products col-md-3">
+            <select class="selectpicker form-control" size="6" style="overflow: hidden;" ng-model="selectedProdId" ng-change="getProdDetail(selectedProdId)">
+                <option selected disabled hidden value=""></option>
+                <option ng-repeat="prod in products" value="{{prod.id}}">
+                    {{prod.name}}
+                </option>
+            </select>
+            <p><br>Standard Price: ${{selectedProd.price}}</p>
+        </div>
+        <div class="col-md-9">
+            <table class="table table-bordered">
+                <tr>
+                    <th>Rebate id</th>
+                    <th>% offer</th>
+                    <th>Products included</th>
+                </tr>
+                <tr ng-repeat="pr in prodRebates">
+                    <td>{{pr.id}}</td>
+                    <td>{{pr.rate * 100}}</td>
+                    <td><span ng-hide="pr.productList.length > 0">All</span>
+                        <span ng-repeat="product in pr.productList">
+                        - {{product.name}}<br>
+                    </span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="col-xs-12">
+            <h1>Final Prices</h1>
+            <p># applicable rebate: {{rebatePrices.length}}</p>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Rebate id</th>
+                    <th>Final price</th>
+                    <th>Minimum volume for this price</th>
+                </tr>
+                <tr ng-repeat="price in rebatePrices">
+                    <td>{{price.rebate.id}}</td>
+                    <td>{{price.newprice}}</td>
+                    <td>{{price.minVolume}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="./bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="./bower_components/angular-resource/angular-resource.min.js"></script>
+<script type="text/javascript" src="./bower_components/lodash/dist/lodash.min.js"></script>
+<script type="text/javascript" src="./app/app.js"></script>
+<script type="text/javascript" src="./app/controllers.js"></script>
+<script type="text/javascript" src="./app/services.js"></script>
+</html>
