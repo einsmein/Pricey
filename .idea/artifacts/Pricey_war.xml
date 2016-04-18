@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="Pricey:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="pricey-1.0-SNAPSHOT.war">
-      <element id="artifact" artifact-name="Pricey:war exploded" />
-    </root>
-  </artifact>
-</component>
